@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * THEME TOKENS
+ * These are the base color tokens, each with -light and -dark variants.
+ */
+:root {
+  /* Accent */
+  --accent-light: #f4f4f5; /* tailwind: zinc-100 */
+  --accent-dark: #27272a; /* tailwind: zinc-800 */
+  --accent-foreground-light: #18181b; /* tailwind: zinc-900 */
+  --accent-foreground-dark: #fafafa; /* tailwind: zinc-50 */
+
+  /* Background */
+  --background-light: #ffffff; /* tailwind: white */
+  --background-dark: #09090b; /* tailwind: zinc-950 */
+
+  /* Border */
+  --border-light: #e4e4e7; /* tailwind: zinc-200 */
+  --border-dark: #27272a; /* tailwind: zinc-800 */
+
+  /* Card */
+  --card-light: #ffffff; /* tailwind: white */
+  --card-dark: #18181b; /* tailwind: zinc-950 */
+  --card-foreground-light: #18181b; /* tailwind: zinc-950 */
+  --card-foreground-dark: #fafafa; /* tailwind: zinc-50 */
+
+  /* Destructive */
+  --destructive-light: #dc2626; /* tailwind: red-600 */
+  --destructive-dark: #7f1d1d; /* tailwind: red-900 */
+  --destructive-foreground-light: #fafafa; /* tailwind: red-50 */
+  --destructive-foreground-dark: #fafafa; /* tailwind: red-50 */
+
+  /* Foreground */
+  --foreground-light: #18181b; /* tailwind: zinc-900 */
+  --foreground-dark: #fafafa; /* tailwind: zinc-50 */
+
+  /* Input */
+  --input-light: #e4e4e7; /* tailwind: zinc-200 */
+  --input-dark: #27272a; /* tailwind: zinc-800 */
+
+  /* Muted */
+  --muted-light: #f4f4f5; /* tailwind: zinc-100 */
+  --muted-dark: #27272a; /* tailwind: zinc-800 */
+  --muted-foreground-light: #71717a; /* tailwind: zinc-500 */
+  --muted-foreground-dark: #a1a1aa; /* tailwind: zinc-400 */
+
+  /* Popover */
+  --popover-light: #ffffff; /* tailwind: white */
+  --popover-dark: #18181b; /* tailwind: zinc-950 */
+  --popover-foreground-light: #18181b; /* tailwind: zinc-950 */
+  --popover-foreground-dark: #fafafa; /* tailwind: zinc-50 */
+
+  /* Primary */
+  --primary-light: #18181B; /* tailwind: blue-600 */
+  --primary-dark: #FAFAFA; /* tailwind: blue-600 */
+  --primary-foreground-light: #FAFAFA; /* tailwind: white */
+  --primary-foreground-dark: #18181B; /* tailwind: white */
+
+  /* Ring */
+  --ring-light: #e0e7ff; /* tailwind: indigo-100 */
+  --ring-dark: #312e81; /* tailwind: indigo-900 */
+
+  /* Secondary */
+  --secondary-light: #f4f4f5; /* tailwind: zinc-100 */
+  --secondary-dark: #27272a; /* tailwind: zinc-800 */
+  --secondary-foreground-light: #0866FF; /* tailwind: blue-600 */
+  --secondary-foreground-dark: #FAFAFA; /* tailwind: blue-600 */
+}
+
+/**
+ * MODE TOKENS
+ * These are the mode-based tokens that reference the theme tokens above.
+ */
+:root {
+  /* Light mode */
+  --accent: var(--accent-light);
+  --accent-foreground: var(--accent-foreground-light);
+  --background: var(--background-light);
+  --border: var(--border-light);
+  --card: var(--card-light);
+  --card-foreground: var(--card-foreground-light);
+  --destructive: var(--destructive-light);
+  --destructive-foreground: var(--destructive-foreground-light);
+  --foreground: var(--foreground-light);
+  --input: var(--input-light);
+  --muted: var(--muted-light);
+  --muted-foreground: var(--muted-foreground-light);
+  --popover: var(--popover-light);
+  --popover-foreground: var(--popover-foreground-light);
+  --primary: var(--primary-light);
+  --primary-foreground: var(--primary-foreground-light);
+  --ring: var(--ring-light);
+  --secondary: var(--secondary-light);
+  --secondary-foreground: var(--secondary-foreground-light);
+}
+
+.dark {
+  /* Dark mode */
+  --accent: var(--accent-dark);
+  --accent-foreground: var(--accent-foreground-dark);
+  --background: var(--background-dark);
+  --border: var(--border-dark);
+  --card: var(--card-dark);
+  --card-foreground: var(--card-foreground-dark);
+  --destructive: var(--destructive-dark);
+  --destructive-foreground: var(--destructive-foreground-dark);
+  --foreground: var(--foreground-dark);
+  --input: var(--input-dark);
+  --muted: var(--muted-dark);
+  --muted-foreground: var(--muted-foreground-dark);
+  --popover: var(--popover-dark);
+  --popover-foreground: var(--popover-foreground-dark);
+  --primary: var(--primary-dark);
+  --primary-foreground: var(--primary-foreground-dark);
+  --ring: var(--ring-dark);
+  --secondary: var(--secondary-dark);
+  --secondary-foreground: var(--secondary-foreground-dark);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  .btn-base:focus-visible {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--ring);
+  }
+  
+  .btn-base:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+} 

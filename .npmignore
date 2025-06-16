@@ -1,0 +1,8 @@
+src/
+*.stories.*
+*.test.*
+*.config.js
+*.config.ts
+.storybook/
+.vite/
+node_modules/ 
