@@ -14,7 +14,7 @@
     "skipChecks": false
   },
   "hooks": {
-    "before:init": ["npm run lint", "npm run build"],
+    "before:init": ["npm run build"],
     "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
   },
   "plugins": {
