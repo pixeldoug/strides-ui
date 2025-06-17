@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../utils/cn';
+import { cva } from 'class-variance-authority';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -9,39 +10,50 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   /**
    * The size of the button
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'icon';
   /**
-   * Whether the button should take up the full width of its container
+   * Whether the button should take the full width of its container
    */
   fullWidth?: boolean;
   /**
-   * Optional loading state
+   * Whether the button is in a loading state
    */
   loading?: boolean;
   /**
-   * Icon to display before the button text
+   * Icon to display in the button (optional)
    */
-  startIcon?: React.ReactNode;
-  /**
-   * Icon to display after the button text
-   */
-  endIcon?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
-const buttonVariants = {
-  primary: 'bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80',
-  secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/70',
-  outline: 'border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80',
-  ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80',
-  destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 active:bg-destructive/80',
-  link: 'text-foreground hover:underline underline-offset-4 hover:bg-transparent'
-};
-
-const buttonSizes = {
-  sm: 'px-3 py-2 text-sm leading-5 h-9 rounded-2xl',
-  md: 'px-4 py-2 text-sm leading-5 h-10 rounded-2xl', 
-  lg: 'px-6 py-3 text-base leading-6 h-12 rounded-xl'
-};
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline:
+          "border border-border bg-background shadow-sm hover:bg-secondary hover:text-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-secondary hover:text-foreground",
+        link: "text-foreground underline-offset-4 hover:underline",
+      },
+      size: {
+        md: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "md",
+    },
+  }
+)
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
@@ -50,8 +62,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     size = 'md', 
     fullWidth = false,
     loading = false,
-    startIcon,
-    endIcon,
+    icon,
     children, 
     disabled,
     type,
@@ -60,7 +71,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ...props 
   }, ref) => {
     const isDisabled = disabled || loading;
-    const isIconOnly = !children && (startIcon || endIcon);
+    const isIconOnly = size === 'icon' || (!children && icon);
 
     // Warn in dev if icon-only button has no accessible label
     if (process.env.NODE_ENV !== 'production' && isIconOnly && !ariaLabel && !title) {
@@ -70,14 +81,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
 
+    const iconSize = size === 'lg' ? 'h-4 w-4' : size === 'sm' ? 'h-3 w-3' : 'h-4 w-4';
+
     return (
       <button
         className={cn(
-          'btn-base',
-          buttonSizes[size],
-          buttonVariants[variant],
+          buttonVariants({ variant, size }),
           fullWidth && 'w-full',
-          'gap-2',
           className
         )}
         ref={ref}
@@ -92,10 +102,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading && (
           <>
             <svg 
-              className={cn(
-                'animate-spin',
-                size === 'lg' ? 'h-5 w-5' : 'h-4 w-4'
-              )}
+              className={cn('animate-spin', iconSize)}
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24"
@@ -120,25 +127,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <span className="sr-only">Loading...</span>
           </>
         )}
-        {!loading && startIcon && (
-          <span className={cn(
-            size === 'lg' ? 'h-5 w-5' : 'h-4 w-4',
-            'flex items-center justify-center shrink-0'
-          )}>
-            {startIcon}
+        {!loading && icon && (
+          <span className={cn('flex items-center justify-center shrink-0', iconSize)}>
+            {icon}
           </span>
         )}
-        {children && (
-          <span className="block whitespace-nowrap" aria-live={loading ? 'polite' : undefined}>
+        {children && !isIconOnly && (
+          <span className="block" aria-live={loading ? 'polite' : undefined}>
             {children}
           </span>
         )}
-        {!loading && endIcon && (
-          <span className={cn(
-            size === 'lg' ? 'h-5 w-5' : 'h-4 w-4',
-            'flex items-center justify-center shrink-0'
-          )}>
-            {endIcon}
+        {!loading && isIconOnly && (icon) && (
+          <span className={cn('flex items-center justify-center shrink-0', iconSize)}>
+            {icon}
           </span>
         )}
       </button>

@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+You are a advanced design system code assistant integrated with Figma via MCP. When processing colors from Figma:
+
+1. **Never overwrite** any existing design-system variables in the project.
+2. For each exported Figma color:
+   - If it **matches** a defined variable (by name or exact hex value), **use that variable**.
+   - If there is **no match**, **do not create a new variable automatically**. Instead, **notify me** with the color’s information and Figma style name (e.g., “Color #ABCDEF (Style: Primary/Accent) not found—awaiting approval.”).
+3. After processing, generate a **report**:
+   - ✅ Colors mapped to existing variables.
+   - ⚠️ Colors missing—awaiting confirmation.
+4. **Stop automatic addition** of unknown colors until I explicitly approve them.
+
+Here’s an example of desired output:
+
+Mapped:
+- `bg-zinc-900` → `primary`
+ ---
+
+## 🧩 Why This Works
+
+- Guarantees strict alignment with my existing design system tokens on Figma.
+- Prevents uncontrolled color drift or accidental overwrites in the codebase.
+- Gives you full visibility and control over which new colors get introduced.
